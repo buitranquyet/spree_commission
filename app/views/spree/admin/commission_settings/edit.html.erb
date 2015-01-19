@@ -1,0 +1,33 @@
+<%= render 'spree/admin/shared/configuration_menu' %>
+
+<h1> Configuration for Spree Commission </h1>
+
+<%= form_tag admin_commission_settings_path, :method => :put do %>
+  <div id="preferences" data-hook>
+
+    <fieldset class="general no-border-top">
+      <div class='field'>
+        <label>
+          <%= @store.name %>
+         </label>
+      </div>
+
+      <% @config_keys.each do |key|
+        type = @config.preference_type(key) %>
+        <div class="field">
+          <%= label_tag(key, Spree.t(key) + ': ') + tag(:br) if type != :boolean %>
+          <%= preference_field_tag(key, @config[key], :type => type) %>
+          <%= label_tag(key, Spree.t(key)) + tag(:br) if type == :boolean %>
+        </div>
+      <% end %>
+
+      <div class="form-buttons filter-actions actions" data-hook="buttons">
+        <%= button Spree.t('actions.update'), 'refresh' %>
+        <span class="or"><%= Spree.t(:or) %></span>
+        <%= link_to_with_icon 'remove', Spree.t('actions.cancel'), edit_admin_general_settings_url, :class => 'button' %>
+      </div>
+
+    </fieldset>
+
+  </div>
+<% end %>
