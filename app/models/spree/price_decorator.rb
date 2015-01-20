@@ -1,7 +1,8 @@
 Spree::Price.class_eval do
-  def price=(price)
+  def money
+    return unless variant
     commission = variant.product.try(:commission) || 
-                 Spree::CommissionConfiguration.new.commission
-    self[:amount] = Spree::LocalizedNumber.parse(price.to_d * (1 + commission/100))
+             Spree::CommissionConfiguration.new.commission
+    Spree::Money.new(amount * (1 + commission / 100) || 0, { currency: currency })
   end
 end
