@@ -12,6 +12,7 @@ class Spree::Admin::CommissionSettingsController < Spree::Admin::BaseController
       next unless config.has_preference? name
       config[name] = value
     end
+    Spree::Product.update_all(updated_at: Time.now)
     redirect_to edit_admin_commission_settings_path
   end
 end
